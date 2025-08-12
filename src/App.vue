@@ -1,137 +1,93 @@
 <template>
-  <div class="container">
-    <h1>Personalizador Shadows of Doubt</h1>
+  <v-app>
+    <v-main>
+      <div class="d-flex flex-column justify-center align-center">
 
-    <input type="file" accept=".cit,.json" @change="handleFile" />
-    <div class="general-info">
-      {{ $t('test.new') }}
-      <div>{{data.cityName}}</div>
-      <div>{{data.build}}</div>
-    
-    <button v-if="fileName" @click="downloadFile">Baixar Arquivo Modificado</button>
-    </div>
-    <div v-if="Object.keys(data).length" class="editor">
-      <div class="card">
-        <h2>Citizens</h2>
-        <div v-for="value in data['citizens']" :key="value.id" class="citizen-card">  
-          <citizen-card
-            :modelValue="value"
-          />
-        </div>
+        <h1 class="text-center">City Editor</h1>
+
+        <v-btn class="mt-3">{{ $t('downloadFile') }}</v-btn>
+
+        <select v-model="locale" class="lang-select mt-3">
+          <option value="pt">🇧🇷 Português</option>
+          <option value="en">🇺🇸 English</option>
+        </select>
       </div>
-      <div class="card">
-        <h2>Districts</h2>
-        <div v-for="value in data['districts']" :key="value.id" class="district-card">  
-          <district-card
-            :modelValue="value"
-          />
-        </div>
-      </div>
-      <div class="card">
-        <h2>Streets</h2>
-        <div v-for="value in data['streets']" :key="value.id" class="street-card">  
-          <street-card
-            :modelValue="value"
-          />
-        </div>
-      </div>
-      
-      
-    </div>
-  </div>
+
+      <CategoryTabs />
+    </v-main>
+  </v-app>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import EditorCard from './components/EditorCard.vue'
-import CitizenCard from './components/CitizenCard.vue'
-import DistrictCard from './components/DistrictCard.vue'
-import StreetCard from './components/StreetCard.vue'
+import CategoryTabs from './components/CategoryTabs.vue'
+import { useI18n } from 'vue-i18n'
 
-const data = ref({})
-const fileName = ref('')
-function handleFile(event) {
-  const file = event.target.files[0]
-  fileName.value = file.name.replace('.cit', '')
-  if (!file) return
-
-  const reader = new FileReader()
-  reader.onload = (e) => {
-    try {
-      const json = JSON.parse(e.target.result)
-      data.value = {
-        build: json.build,
-        citizens: json.citizens,
-        cityName: json.cityName,
-        cityTiles: json.cityTiles,
-        districts: json.districts,
-        groups: json.groups,
-        streets: json.streets,
-      }
-      console.log('Arquivo carregado:', data.value)
-    } catch (err) {
-      alert('Erro ao ler o arquivo JSON')
-    }
-  }
-  reader.readAsText(file)
-}
-
-function downloadFile() {
-  console.log('Baixando arquivo modificado:', data.value)
-  const blob = new Blob([JSON.stringify(data.value, null, 2)], {
-    type: 'application/json',
-  })
-  const link = document.createElement('a')
-  link.href = URL.createObjectURL(blob)
-  link.download = fileName.value + '_modified.cit'
-  link.click()
-}
+const { locale } = useI18n()
 </script>
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Courier New', Courier, monospace;
-  background-color: #111;
-  color: #ddd;
-}
-h1 {
-  color: #fff;
-  text-align: center;
-  margin: 0;
-}
-h2 {
-  color: #fff;
-  margin: 0.5rem;
+html,
+body,
+#app {
+  background-color: #0f0f0f;
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
+  /* Dá um ar cyberpunk */
 }
 
-.container {
-  margin: auto;
+.v-application {
+  background-color: transparent !important;
 }
-.editor {
-  background-color: #222;
-  padding: 0 1rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-  display: flex;
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  color: rgb(255, 0, 89);
+  /* Neon ciano */
+  text-shadow:
+    0 0 5px rgb(255, 0, 89),
+    0 0 10px rgb(255, 0, 89),
+    0 0 20px rgb(255, 0, 89),
+    0 0 40px rgb(255, 0, 89),
+    0 0 80px rgb(255, 0, 89);
+  animation: glowPulse 2s infinite alternate;
 }
-input[type='file'] {
-  margin-bottom: 1rem;
+
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      0 0 5px rgb(255, 0, 89),
+      0 0 10px rgb(255, 0, 89),
+      0 0 20px rgb(255, 0, 89),
+      0 0 40px rgb(255, 0, 89),
+      0 0 80px rgb(255, 0, 89);
+  }
+
+  to {
+    text-shadow:
+      0 0 10px rgb(255, 0, 89),
+      0 0 20px rgb(255, 0, 89),
+      0 0 40px rgb(255, 0, 89),
+      0 0 80px rgb(255, 0, 89),
+      0 0 160px rgb(255, 0, 89);
+  }
 }
-button {
-  background-color: #333;
-  color: #fff;
-  padding: 0.7rem 1.2rem;
-  border: 1px solid #666;
+
+.lang-select {
+  position: fixed;
+  top: 5px;
+  right: 15px;
+  background-color: #1a1a1a;
+  color: rgb(255, 0, 89);
+  border: 1px solid rgb(255, 0, 89);
+  padding: 6px 12px;
   border-radius: 5px;
-  cursor: pointer;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 14px;
+  z-index: 999;
 }
-button:hover {
-  background-color: #555;
-}
-.list {
-  display: grid;
-  gap: 1rem;
-  background-color: #222;
+
+.lang-select:focus {
+  outline: none;
 }
 </style>

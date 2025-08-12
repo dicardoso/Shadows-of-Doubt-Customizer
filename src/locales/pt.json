@@ -1,0 +1,13 @@
+{
+  "title": "Personalizador Shadows of Doubt",
+  "uploadFile": "Enviar Arquivo",
+  "downloadFile": "Baixar Arquivo Modificado",
+  "cityName": "Nome da Cidade",
+  "build": "Versão",
+  "categories": {
+    "characters": "Personagens",
+    "streets": "Ruas",
+    "companies": "Empresas"
+  },
+  "searchPlaceholder": "Pesquisar..."
+}

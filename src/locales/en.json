@@ -1,0 +1,13 @@
+{
+  "title": "Shadows of Doubt Customizer",
+  "uploadFile": "Upload File",
+  "downloadFile": "Download Modified File",
+  "cityName": "City Name",
+  "build": "Build",
+  "categories": {
+    "characters": "Characters",
+    "streets": "Streets",
+    "companies": "Companies"
+  },
+  "searchPlaceholder": "Search..."
+}
