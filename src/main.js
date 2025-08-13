@@ -9,6 +9,7 @@ import '../assets/styles.scss'
 
 import en from './locales/en.json'
 import pt from './locales/pt.json'
+import es from './locales/es.json'
 
 const i18n = createI18n({
   locale: 'en',
@@ -16,6 +17,7 @@ const i18n = createI18n({
   messages: {
     en,
     pt,
+    es,
   },
 })
 

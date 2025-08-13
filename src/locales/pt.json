@@ -1,13 +1,38 @@
 {
   "title": "Personalizador Shadows of Doubt",
-  "uploadFile": "Enviar Arquivo",
+  "uploadFile": "Enviar Arquivo .cit",
   "downloadFile": "Baixar Arquivo Modificado",
+  "resetData": "Redefinir Dados",
   "cityName": "Nome da Cidade",
   "build": "Versão",
   "categories": {
-    "characters": "Personagens",
+    "citizens": "Cidadãos",
     "streets": "Ruas",
-    "companies": "Empresas"
+    "districts": "Distritos",
+    "general": "Geral"
   },
-  "searchPlaceholder": "Pesquisar..."
+  "tab": {
+    "general": {
+      "build": "Versão",
+      "city-name": "Nome da Cidade",
+      "city-size": "Tamanho da Cidade (X/Y)",
+      "population": "População",
+      "seed": "Semente"
+    },
+    "districts": {
+      "name": "Nome do Distrito",
+      "preset": "Preset"
+    },
+    "citizens": {
+      "name": "Nome do Cidadão",
+      "first-name": "Primeiro Nome",
+      "sur-name": "Sobrenome",
+      "casual-name": "Nome Casual"
+    },
+    "streets": {
+      "name": "Nome da Rua",
+      "design-style": "Estilo de Design",
+      "street-suffix": "Sufixo da Rua"
+    }
+  }
 }
