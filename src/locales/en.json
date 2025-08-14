@@ -1,0 +1,38 @@
+{
+  "title": "Shadows of Doubt Customizer",
+  "uploadFile": "Upload File .cit",
+  "downloadFile": "Download Modified File",
+  "resetData": "Reset Data",
+  "cityName": "City Name",
+  "build": "Build",
+  "categories": {
+    "citizens": "Citizens",
+    "streets": "Streets",
+    "districts": "Districts",
+    "general": "General"
+  },
+  "tab": {
+    "general": {
+      "build": "Version",
+      "city-name": "City Name",
+      "city-size": "City Size (X/Y)",
+      "population": "Population",
+      "seed": "Seed"
+    },
+    "districts": {
+      "name": "District Name",
+      "preset": "Preset"
+    },
+    "citizens": {
+      "name": "Citizen Name",
+      "first-name": "First Name",
+      "sur-name": "Surname",
+      "casual-name": "Casual Name"
+    },
+    "streets": {
+      "name": "Street Name",
+      "design-style": "Design Style",
+      "street-suffix": "Street Suffix"
+    }
+  }
+}

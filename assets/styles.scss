@@ -1,0 +1,43 @@
+body {
+  background-color: #0a0f0f;
+  font-family: 'VT323', monospace;
+  color: #00f5d4;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.neon-cyan {
+  color: #00f5d4;
+  text-shadow:
+    0 0 5px #00f5d4,
+    0 0 10px #00f5d4;
+}
+
+.neon-purple {
+  color: #d500f9;
+  text-shadow:
+    0 0 5px #d500f9,
+    0 0 10px #d500f9;
+}
+
+.download-btn {
+  font-size: 1.5rem;
+  margin-top: 30px;
+}
+
+.category-title {
+  font-size: 1.2rem;
+  color: #00f5d4;
+}
+
+.editable-input input {
+  color: #00f5d4;
+}
+
+.search-input input {
+  color: #00f5d4;
+}

@@ -1,81 +1,98 @@
 <template>
-  <div class="container">
-    <h1>Personalizador Shadows of Doubt</h1>
+  <v-app>
+    <v-main>
+      <div class="d-flex flex-column justify-center align-center">
+        <h1 class="text-center">{{ $t('title') }}</h1>
+        <v-row class="mt-4">
+          <v-col>
+            <v-file-input
+              :label="$t('uploadFile')"
+              hide-details
+              :prepend-icon="null"
+              counter
+              variant="outlined"
+              accept=".cit"
+              width="500"
+              clearable
+              @change="handleFile"
+              @click:clear="data = defaultData"
+            />
+          </v-col>
+          <v-col class="d-flex align-center">
+            <v-btn :disabled="!data" @click="downloadFile" :loading="loading" class="mr-3">
+              {{ $t('downloadFile') }}
+            </v-btn>
+            <v-btn disabled color="pink" variant="outlined">
+              {{ $t('resetData') }}
+            </v-btn>
+          </v-col>
+        </v-row>
 
-    <input type="file" accept=".cit,.json" @change="handleFile" />
-    <div class="general-info">
-      {{ $t('test.new') }}
-      <div>{{data.cityName}}</div>
-      <div>{{data.build}}</div>
-    
-    <button v-if="fileName" @click="downloadFile">Baixar Arquivo Modificado</button>
-    </div>
-    <div v-if="Object.keys(data).length" class="editor">
-      <div class="card">
-        <h2>Citizens</h2>
-        <div v-for="value in data['citizens']" :key="value.id" class="citizen-card">  
-          <citizen-card
-            :modelValue="value"
-          />
-        </div>
+        <select v-model="locale" class="lang-select mt-3">
+          <option value="en">🇺🇸 English</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="pt">🇧🇷 Português</option>
+        </select>
       </div>
-      <div class="card">
-        <h2>Districts</h2>
-        <div v-for="value in data['districts']" :key="value.id" class="district-card">  
-          <district-card
-            :modelValue="value"
-          />
-        </div>
-      </div>
-      <div class="card">
-        <h2>Streets</h2>
-        <div v-for="value in data['streets']" :key="value.id" class="street-card">  
-          <street-card
-            :modelValue="value"
-          />
-        </div>
-      </div>
-      
-      
-    </div>
-  </div>
+
+      <CategoryTabs :model-value="data" :loading="loading" />
+    </v-main>
+  </v-app>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import EditorCard from './components/EditorCard.vue'
-import CitizenCard from './components/CitizenCard.vue'
-import DistrictCard from './components/DistrictCard.vue'
-import StreetCard from './components/StreetCard.vue'
+import CategoryTabs from './components/CategoryTabs.vue'
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n()
 
 const data = ref({})
 const fileName = ref('')
+const loading = ref(false)
+const defaultData = ref({
+  build: '',
+  citySize: '',
+  citizens: [],
+  cityName: '',
+  cityTiles: [],
+  districts: [],
+  groups: [],
+  streets: [],
+  population: '',
+  seed: '',
+})
+
 function handleFile(event) {
   const file = event.target.files[0]
-  fileName.value = file.name.replace('.cit', '')
+  fileName.value = file ? file.name.replace('.cit', '') : null
   if (!file) return
+  loading.value = true
 
   const reader = new FileReader()
   reader.onload = (e) => {
     try {
       const json = JSON.parse(e.target.result)
-      data.value = {
+      const loadedData = {
         build: json.build,
+        citySize: json.citySize,
         citizens: json.citizens,
         cityName: json.cityName,
         cityTiles: json.cityTiles,
         districts: json.districts,
         groups: json.groups,
         streets: json.streets,
+        population: json.population,
+        seed: json.seed,
       }
-      console.log('Arquivo carregado:', data.value)
+      data.value = loadedData
     } catch (err) {
       alert('Erro ao ler o arquivo JSON')
+    } finally {
+      loading.value = false
     }
   }
   reader.readAsText(file)
 }
-
 function downloadFile() {
   console.log('Baixando arquivo modificado:', data.value)
   const blob = new Blob([JSON.stringify(data.value, null, 2)], {
@@ -89,49 +106,64 @@ function downloadFile() {
 </script>
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Courier New', Courier, monospace;
-  background-color: #111;
-  color: #ddd;
-}
-h1 {
-  color: #fff;
-  text-align: center;
-  margin: 0;
-}
-h2 {
-  color: #fff;
-  margin: 0.5rem;
+html,
+body,
+#app {
+  background-color: #0f0f0f;
+  color: #0ff;
+  font-family: 'Share Tech Mono', monospace;
 }
 
-.container {
-  margin: auto;
+.v-application {
+  background-color: transparent !important;
 }
-.editor {
-  background-color: #222;
-  padding: 0 1rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-  display: flex;
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  color: rgb(255, 0, 89);
+  /* Neon ciano */
+  text-shadow:
+    0 0 5px rgb(255, 0, 89),
+    0 0 10px rgb(255, 0, 89),
+    0 0 20px rgb(255, 0, 89),
+    0 0 40px rgb(255, 0, 89);
+  animation: glowPulse 2s infinite alternate;
 }
-input[type='file'] {
-  margin-bottom: 1rem;
+
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      0 0 5px rgb(255, 0, 89),
+      0 0 10px rgb(255, 0, 89),
+      0 0 20px rgb(255, 0, 89),
+      0 0 40px rgb(255, 0, 89);
+  }
+
+  to {
+    text-shadow:
+      0 0 10px rgb(255, 0, 89),
+      0 0 20px rgb(255, 0, 89),
+      0 0 40px rgb(255, 0, 89),
+      0 0 80px rgb(255, 0, 89);
+  }
 }
-button {
-  background-color: #333;
-  color: #fff;
-  padding: 0.7rem 1.2rem;
-  border: 1px solid #666;
+
+.lang-select {
+  position: fixed;
+  top: 5px;
+  right: 15px;
+  background-color: #1a1a1a;
+  color: rgb(255, 0, 89);
+  border: 1px solid rgb(255, 0, 89);
+  padding: 6px 12px;
   border-radius: 5px;
-  cursor: pointer;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 14px;
+  z-index: 999;
 }
-button:hover {
-  background-color: #555;
-}
-.list {
-  display: grid;
-  gap: 1rem;
-  background-color: #222;
+
+.lang-select:focus {
+  outline: none;
 }
 </style>
